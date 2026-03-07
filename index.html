@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<title>PolyPet</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2 class="logo">🐾 PolyPet</h2>
+
+<button onclick="showPage('home')">🏠 Home</button>
+<button onclick="showPage('learn')">📚 Learn</button>
+<button onclick="showPage('play')">🎮 Games</button>
+<button onclick="showPage('stats')">📊 Progress</button>
+<button onclick="showPage('profile')">🏆 Achievements</button>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<!-- HOME -->
+
+<div id="home" class="page active">
+
+<h1>Welcome Back!</h1>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Level</h3>
+<p id="level">1</p>
+
+</div>
+
+<div class="card">
+
+<h3>XP</h3>
+
+<div class="xp-bar">
+<div id="xp-fill"></div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Your Pet</h3>
+<div class="pet-avatar">🐣</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FLASHCARDS -->
+
+<div id="learn" class="page">
+
+<h1>Flashcards</h1>
+
+<div class="flashcard-container">
+
+<div class="flashcard3d" onclick="flipCard()">
+
+<div id="card-front" class="card-front">Hola</div>
+<div id="card-back" class="card-back">Hello</div>
+
+</div>
+
+<button onclick="nextFlashcard()">Next Card</button>
+
+</div>
+
+</div>
+
+
+<!-- MATCH GAME -->
+
+<div id="play" class="page">
+
+<h1>Matching Game</h1>
+
+<div id="match-board"></div>
+
+</div>
+
+
+<!-- PROGRESS -->
+
+<div id="stats" class="page">
+
+<h1>Learning Progress</h1>
+
+<canvas id="progressChart"></canvas>
+
+</div>
+
+
+<!-- ACHIEVEMENTS -->
+
+<div id="profile" class="page">
+
+<h1>Achievements</h1>
+
+<div id="achievements"></div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<div class="blob"></div>
+<div class="blob blob2"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
