@@ -1,167 +1,199 @@
-let xp=0
-let level=1
+function showPage(p){
 
-function showPage(page){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"))
 
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
-
-document.getElementById(page).classList.add("active")
+document.getElementById(p).classList.add("active")
 
 }
 
 /* greeting */
 
-function greeting(){
-
 let h=new Date().getHours()
 
-let text=""
+let greet=""
 
-if(h<12) text="Good Morning!"
-else if(h<18) text="Good Afternoon!"
-else text="Good Evening!"
+if(h<12)greet="Good Morning"
+else if(h<18)greet="Good Afternoon"
+else greet="Good Evening"
 
-document.getElementById("greeting").innerText=text
-
+document.getElementById("greeting").innerText=greet
 document.getElementById("encourage").innerText=
-"Clever like a fox 🦊 — keep up the pawsome progress!"
+"Clever like a fox 🦊 Keep up the pawsome progress!"
 
-}
+/* animated fox */
 
-greeting()
+document.addEventListener("mousemove",e=>{
+let fox=document.getElementById("fox")
+fox.style.left=e.pageX+15+"px"
+fox.style.top=e.pageY+15+"px"
+})
 
-/* xp */
+/* world clock */
 
-function gainXP(){
+let zones=[
+["New York","America/New_York"],
+["London","Europe/London"],
+["Tokyo","Asia/Tokyo"],
+["Beijing","Asia/Shanghai"]
+]
 
-xp+=10
+zones.forEach(z=>{
 
-if(xp>=100){
-level++
-xp=0
-document.getElementById("level").innerText=level
-}
+let div=document.createElement("div")
 
-document.getElementById("xp-fill").style.width=xp+"%"
+setInterval(()=>{
 
-}
+let t=new Date().toLocaleTimeString("en-US",{timeZone:z[1]})
+
+div.innerText=z[0]+" : "+t
+
+},1000)
+
+document.getElementById("clock-list").appendChild(div)
+
+})
 
 /* flashcards */
 
 let cards=[
 ["Hola","Hello"],
+["Adiós","Goodbye"],
 ["Gracias","Thank you"],
-["Adiós","Goodbye"]
+["Por favor","Please"],
+["Sí","Yes"],
+["No","No"],
+["Buenos días","Good morning"],
+["Buenas tardes","Good afternoon"],
+["Buenas noches","Good night"],
+["¿Cómo estás?","How are you"],
+["Amigo","Friend"],
+["Familia","Family"],
+["Casa","House"],
+["Libro","Book"],
+["Perro","Dog"],
+["Gato","Cat"],
+["Comer","To eat"],
+["Beber","To drink"],
+["Escuela","School"],
+["Maestro","Teacher"]
 ]
 
 let i=0
 let flipped=false
 
+function showCard(){
+
+document.getElementById("card-front").innerText=cards[i][0]
+document.getElementById("card-back").innerText=""
+
+}
+
+showCard()
+
 function flipCard(){
 
-flipped=!flipped
-
-document.getElementById("card-front").style.display=
-flipped?"none":"block"
-
-document.getElementById("card-back").style.display=
-flipped?"block":"none"
+if(!flipped){
+document.getElementById("card-back").innerText=cards[i][1]
+flipped=true
+}else{
+document.getElementById("card-back").innerText=""
+flipped=false
+}
 
 }
 
 function nextCard(){
 
-i++
-
-if(i>=cards.length){
-i=0
-gainXP()
-}
-
-document.getElementById("card-front").innerText=cards[i][0]
-document.getElementById("card-back").innerText=cards[i][1]
+i=(i+1)%cards.length
+showCard()
 
 }
 
-/* matching */
+/* practice */
 
-let words=["Hola","Hello","Gracias","Thanks"]
+let practiceQuestions=[
+["Yo ___ estudiante","soy"],
+["Ella ___ mi amiga","es"],
+["Nosotros ___ felices","somos"],
+["Tú ___ inteligente","eres"],
+["Ellos ___ estudiantes","son"]
+]
 
-let board=document.getElementById("match-board")
+let practice=document.getElementById("practice")
 
-words.forEach(w=>{
+practiceQuestions.forEach((q,i)=>{
 
 let d=document.createElement("div")
-d.className="match"
-d.innerText=w
 
-d.onclick=()=>{
-d.style.background="#b7ffce"
-gainXP()
-}
+d.innerHTML=q[0]+" <input id='p"+i+"'>"
 
-board.appendChild(d)
+practice.appendChild(d)
 
 })
 
-/* test */
+function checkPractice(){
 
-let questions=[
-["Hola means?","Hello"],
-["Gracias means?","Thank you"],
-["Adiós means?","Goodbye"],
-["Por favor means?","Please"],
-["Yo means?","I"],
-["Tú means?","You"],
-["Comer means?","To eat"],
-["Beber means?","To drink"],
-["Casa means?","House"],
-["Libro means?","Book"],
-["Perro means?","Dog"],
-["Gato means?","Cat"],
-["Rojo means?","Red"],
-["Azul means?","Blue"],
-["Grande means?","Big"],
-["Pequeño means?","Small"],
-["Amigo means?","Friend"],
-["Escuela means?","School"],
-["Maestro means?","Teacher"],
-["Comida means?","Food"],
-["Agua means?","Water"],
-["Buenos días means?","Good morning"],
-["Buenas noches means?","Good night"],
-["¿Cómo estás?","How are you"],
-["Sí means?","Yes"]
+let correct=0
+
+practiceQuestions.forEach((q,i)=>{
+
+let ans=document.getElementById("p"+i).value
+
+if(ans==q[1])correct++
+
+})
+
+document.getElementById("practice-result").innerText=
+correct+" / "+practiceQuestions.length+" correct"
+
+}
+
+/* unit test */
+
+let test=[
+["Hola means?","Hello","Greeting word"],
+["Gracias means?","Thank you","Polite expression"],
+["Perro means?","Dog","Animal vocab"],
+["Casa means?","House","Home word"],
+["Libro means?","Book","Object word"]
 ]
 
-let quiz=document.getElementById("quiz-container")
+let quiz=document.getElementById("quiz")
 
-questions.forEach((q,i)=>{
+test.forEach((q,i)=>{
 
-let div=document.createElement("div")
+let d=document.createElement("div")
 
-div.innerHTML=
+d.innerHTML=q[0]+"<br><input id='q"+i+"'>"
 
-q[0]+"<br><input id='q"+i+"'>"
-
-quiz.appendChild(div)
+quiz.appendChild(d)
 
 })
 
 function submitTest(){
 
-let correct=0
+let score=0
 
-questions.forEach((q,i)=>{
+let result=""
 
-let ans=document.getElementById("q"+i).value.toLowerCase()
+test.forEach((q,i)=>{
 
-if(ans===q[1].toLowerCase()) correct++
+let ans=document.getElementById("q"+i).value
+
+if(ans.toLowerCase()==q[1].toLowerCase()){
+score++
+}else{
+
+result+="Question: "+q[0]+"<br>"
+result+="Correct: "+q[1]+"<br>"
+result+="Explanation: "+q[2]+"<br><br>"
+
+}
 
 })
 
-document.getElementById("score").innerText=
-"Score: "+correct+"/25"
+document.getElementById("results").innerHTML=
+"Score: "+score+"/"+test.length+"<br><br>"+result
 
 }
 
@@ -175,37 +207,14 @@ let time=document.getElementById("session-time").value
 
 let li=document.createElement("li")
 
-li.innerText=name+" - "+date+" "+time
+li.innerText=name+" "+date+" "+time
 
-document.getElementById("session-list").appendChild(li)
+document.getElementById("sessions").appendChild(li)
 
 }
-
-/* absence */
 
 function submitAbsence(){
 
-document.getElementById("absence-msg").innerText=
-"Absence submitted for review."
-
-}
-
-/* world clock */
-
-function addClock(){
-
-let country=document.getElementById("country-input").value
-
-let div=document.createElement("div")
-
-setInterval(()=>{
-
-let time=new Date().toLocaleTimeString()
-
-div.innerText=country+" : "+time
-
-},1000)
-
-document.getElementById("clock-list").appendChild(div)
+document.getElementById("absence-msg").innerText="Absence submitted"
 
 }
