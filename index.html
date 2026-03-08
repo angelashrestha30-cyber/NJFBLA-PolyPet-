@@ -1,157 +1,122 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PolyPet</title>
-
-<link rel="stylesheet" href="styles.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body>
-
-<div class="blob"></div>
-<div class="blob2"></div>
-
-<div id="fox">🦊</div>
-
-<div class="dashboard">
-
-<div class="sidebar">
-
-<h2>🦊 PolyPet</h2>
-
-<button onclick="showPage('home')">Home</button>
-<button onclick="showPage('learn')">Learning</button>
-<button onclick="showPage('flashcards')">Flashcards</button>
-<button onclick="showPage('test')">Unit Test</button>
-<button onclick="showPage('schedule')">Scheduling</button>
-<button onclick="showPage('pets')">Pet Collection</button>
-
-</div>
-
-<div class="main">
-
-<!-- HOME -->
-
-<div id="home" class="page active">
-
-<h1 id="greeting"></h1>
-<p id="encourage"></p>
-
-<div class="card">
-
-<h3>🌍 World Clock</h3>
-
-<div id="clock-list"></div>
-
-</div>
-
-</div>
-
-<!-- LEARNING -->
-
-<div id="learn" class="page">
-
-<h1>Fill In The Blank Practice</h1>
-
-<div id="practice"></div>
-
-<button onclick="checkPractice()">Check Answers</button>
-
-<p id="practice-result"></p>
-
-</div>
-
-<!-- FLASHCARDS -->
-
-<div id="flashcards" class="page">
-
-<h1>Flashcards</h1>
-
-<div class="flashcard" onclick="flipCard()">
-
-<div id="card-front"></div>
-<div id="card-back"></div>
-
-</div>
-
-<button onclick="nextCard()">Next Card</button>
-
-</div>
-
-<!-- TEST -->
-
-<div id="test" class="page">
-
-<h1>Spanish Unit 1 Test</h1>
-
-<div id="quiz"></div>
-
-<button onclick="submitTest()">Submit Test</button>
-
-<div id="results"></div>
-
-</div>
-
-<!-- SCHEDULING -->
-
-<div id="schedule" class="page">
-
-<h1>Schedule Sessions</h1>
-
-<div class="card">
-
-<input id="session-name" placeholder="Tutor or Group">
-<input id="session-date" type="date">
-<input id="session-time" type="time">
-
-<button onclick="addSession()">Schedule</button>
-
-<ul id="sessions"></ul>
-
-</div>
-
-<div class="card">
-
-<h3>Submit Excused Absence</h3>
-
-<textarea id="absence"></textarea>
-
-<button onclick="submitAbsence()">Submit</button>
-
-<p id="absence-msg"></p>
-
-</div>
-
-</div>
-
-<!-- PET COLLECTION -->
-
-<div id="pets" class="page">
-
-<h1>Pet Collection</h1>
-
-<div class="pet-grid">
-
-<div class="pet-card">🐼<br>Chinese Panda</div>
-<div class="pet-card">🐱<br>Japanese Cat</div>
-<div class="pet-card">🐺<br>German Wolf</div>
-<div class="pet-card">🦁<br>Swahili Lion</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script src="script.js"></script>
-
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">🐾 PolyPet</div>
+    <div class="nav-links">
+      <a onclick="showSection('home')">Home</a>
+      <a onclick="showSection('schedule')">Schedule</a>
+      <a onclick="showSection('resources')">Resources</a>
+      <a onclick="showSection('pet-collection')">Pets</a>
+    </div>
+  </nav>
+
+  <!-- BACKGROUND BLOBS -->
+  <div class="bg-blobs">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="section active">
+    <div class="home-container">
+      <div class="pet-panel">
+        <div class="pet-avatar">🦊</div>
+        <h3 id="pet-name-display">Pika</h3>
+        <div class="pet-name-input-container">
+          <input type="text" id="pet-name-input" placeholder="Name your pet!">
+          <button id="pet-name-btn">Rename</button>
+        </div>
+        <p>Level <span id="level">1</span></p>
+        <div class="xp-bar"><div id="xp-fill"></div></div>
+        <p>🔥 <span id="streak">0</span> Day Streak</p>
+        <button onclick="completeLesson()">Play Lesson</button>
+      </div>
+
+      <div class="speech-bubble">
+        <h2 id="dynamicGreeting">Welcome Back, Emma!</h2>
+        <p id="encouragement">Clever like a fox, keep up the pawsome progress! 🌟</p>
+      </div>
+
+      <div class="lesson-cards">
+        <div class="lesson-card float">Spanish Basics ⭐⭐ <span class="lvl">Lv.2</span></div>
+        <div class="lesson-card float delay1">Kanji Practice ⭐⭐⭐ <span class="lvl">Lv.3</span></div>
+        <div class="lesson-card float delay2">Grammar Quiz ⭐ <span class="lvl">Lv.1</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PET COLLECTION -->
+  <section id="pet-collection" class="section">
+    <h2>Pet Collection</h2>
+    <div class="current-pet"></div>
+    <div class="pet-collection-grid" id="pet-collection"></div>
+    <h4>Collect Demo Pets</h4>
+    <button class="collect-btn" onclick="collectPet('Spanish')">Spanish 🦊</button>
+    <button class="collect-btn" onclick="collectPet('Mandarin')">Mandarin 🐼</button>
+    <button class="collect-btn" onclick="collectPet('Japanese')">Japanese 🐱</button>
+    <button class="collect-btn" onclick="collectPet('German')">German 🐺</button>
+    <button class="collect-btn" onclick="collectPet('Swahili')">Swahili 🦁</button>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources" class="section">
+    <h2>Learning Resources</h2>
+    <div class="resource-cards">
+      <div class="resource-card" onclick="showResource('flashcards')">🃏 Flashcards</div>
+      <div class="resource-card" onclick="showResource('practice')">✏️ Practice Mode</div>
+      <div class="resource-card" onclick="showResource('test')">📝 Unit Test</div>
+    </div>
+
+    <div id="flashcards" class="resource-content">
+      <h3>Flashcards</h3>
+      <div id="flashcard" class="flashcard" onclick="flipCard()">Click to load flashcards</div>
+      <div class="menu-buttons">
+        <button onclick="loadFlashcards()">Load Flashcards</button>
+        <button onclick="nextCard()">Next</button>
+      </div>
+    </div>
+
+    <div id="practice" class="resource-content">
+      <h3>Practice Mode</h3>
+      <p id="practiceQuestion">Click "Start Practice" to begin.</p>
+      <input id="practiceInput" type="text" placeholder="Type your answer here">
+      <button onclick="checkPractice()">Check Answer</button>
+      <p id="practiceResult"></p>
+      <button onclick="nextPractice()" id="nextPracticeBtn" style="display:none;">Next</button>
+      <button onclick="startPractice()">Start Practice</button>
+    </div>
+
+    <div id="test" class="resource-content">
+      <h3>Unit Test</h3>
+      <div id="unitTest"></div>
+      <button onclick="submitUnitTest()">Submit Test</button>
+      <p id="unitTestResult"></p>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule" class="section">
+    <h2>Schedule</h2>
+    <div class="calendar-box">
+      <input type="date" id="lesson-date">
+      <input type="text" id="lesson-name" placeholder="Lesson/Group Name">
+      <button onclick="scheduleLesson()">Add Session</button>
+      <ul id="lesson-list"></ul>
+    </div>
+    <h3>🌍 World Clock</h3>
+    <div id="clock-container" class="clock-container"></div>
+  </section>
+
+  <canvas id="confettiCanvas"></canvas>
+  <footer>© 2026 PolyPet | NJ FBLA State Competition</footer>
+  <script src="js/script.js"></script>
 </body>
 </html>
