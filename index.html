@@ -14,15 +14,20 @@
 
 <body>
 
+<div class="blob"></div>
+<div class="blob2"></div>
+
+<div id="fox">🦊</div>
+
 <div class="dashboard">
 
 <div class="sidebar">
 
-<h2 class="logo">🦊 PolyPet</h2>
+<h2>🦊 PolyPet</h2>
 
 <button onclick="showPage('home')">Home</button>
-<button onclick="showPage('learn')">Flashcards</button>
-<button onclick="showPage('game')">Game</button>
+<button onclick="showPage('learn')">Learning</button>
+<button onclick="showPage('flashcards')">Flashcards</button>
 <button onclick="showPage('test')">Unit Test</button>
 <button onclick="showPage('schedule')">Scheduling</button>
 <button onclick="showPage('pets')">Pet Collection</button>
@@ -38,51 +43,44 @@
 <h1 id="greeting"></h1>
 <p id="encourage"></p>
 
-<div class="grid">
-
 <div class="card">
-<h3>Level</h3>
-<p id="level">1</p>
-</div>
 
-<div class="card">
-<h3>XP</h3>
-<div class="xp-bar"><div id="xp-fill"></div></div>
-</div>
+<h3>🌍 World Clock</h3>
 
-<div class="card">
-<h3>Your Pet</h3>
-<div class="pet-avatar">🦊</div>
+<div id="clock-list"></div>
+
 </div>
 
 </div>
+
+<!-- LEARNING -->
+
+<div id="learn" class="page">
+
+<h1>Fill In The Blank Practice</h1>
+
+<div id="practice"></div>
+
+<button onclick="checkPractice()">Check Answers</button>
+
+<p id="practice-result"></p>
 
 </div>
 
 <!-- FLASHCARDS -->
 
-<div id="learn" class="page">
+<div id="flashcards" class="page">
 
 <h1>Flashcards</h1>
 
 <div class="flashcard" onclick="flipCard()">
 
-<div id="card-front">Hola</div>
-<div id="card-back">Hello</div>
+<div id="card-front"></div>
+<div id="card-back"></div>
 
 </div>
 
-<button onclick="nextCard()">Next</button>
-
-</div>
-
-<!-- MATCH GAME -->
-
-<div id="game" class="page">
-
-<h1>Matching Game</h1>
-
-<div id="match-board"></div>
+<button onclick="nextCard()">Next Card</button>
 
 </div>
 
@@ -90,13 +88,13 @@
 
 <div id="test" class="page">
 
-<h1>Unit Test</h1>
+<h1>Spanish Unit 1 Test</h1>
 
-<div id="quiz-container"></div>
+<div id="quiz"></div>
 
 <button onclick="submitTest()">Submit Test</button>
 
-<p id="score"></p>
+<div id="results"></div>
 
 </div>
 
@@ -104,21 +102,17 @@
 
 <div id="schedule" class="page">
 
-<h1>Session Scheduling</h1>
+<h1>Schedule Sessions</h1>
 
 <div class="card">
 
-<h3>Book Tutor or Group Session</h3>
-
-<input id="session-name" placeholder="Tutor or Group Name">
-
+<input id="session-name" placeholder="Tutor or Group">
 <input id="session-date" type="date">
-
 <input id="session-time" type="time">
 
 <button onclick="addSession()">Schedule</button>
 
-<ul id="session-list"></ul>
+<ul id="sessions"></ul>
 
 </div>
 
@@ -126,23 +120,11 @@
 
 <h3>Submit Excused Absence</h3>
 
-<textarea id="absence-reason" placeholder="Reason"></textarea>
+<textarea id="absence"></textarea>
 
 <button onclick="submitAbsence()">Submit</button>
 
 <p id="absence-msg"></p>
-
-</div>
-
-<div class="card">
-
-<h3>World Clock</h3>
-
-<input id="country-input" placeholder="Enter Country">
-
-<button onclick="addClock()">Add Clock</button>
-
-<div id="clock-list"></div>
 
 </div>
 
@@ -156,16 +138,17 @@
 
 <div class="pet-grid">
 
-<div class="pet-card">🐼 Chinese</div>
-<div class="pet-card">🐱 Japanese</div>
-<div class="pet-card">🐺 German</div>
-<div class="pet-card">🦁 Swahili</div>
+<div class="pet-card">🐼<br>Chinese Panda</div>
+<div class="pet-card">🐱<br>Japanese Cat</div>
+<div class="pet-card">🐺<br>German Wolf</div>
+<div class="pet-card">🦁<br>Swahili Lion</div>
 
 </div>
 
 </div>
 
 </div>
+
 </div>
 
 <script src="script.js"></script>
