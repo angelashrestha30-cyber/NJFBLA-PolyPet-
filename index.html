@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -10,30 +10,24 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
 
 <div class="dashboard">
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
 
-<h2 class="logo">🐾 PolyPet</h2>
+<h2 class="logo">🦊 PolyPet</h2>
 
-<button onclick="showPage('home')">🏠 Home</button>
-<button onclick="showPage('learn')">📚 Learn</button>
-<button onclick="showPage('play')">🎮 Games</button>
-<button onclick="showPage('stats')">📊 Progress</button>
-<button onclick="showPage('profile')">🏆 Achievements</button>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('learn')">Flashcards</button>
+<button onclick="showPage('game')">Game</button>
+<button onclick="showPage('test')">Unit Test</button>
+<button onclick="showPage('schedule')">Scheduling</button>
+<button onclick="showPage('pets')">Pet Collection</button>
 
 </div>
-
-
-<!-- MAIN CONTENT -->
 
 <div class="main">
 
@@ -41,38 +35,29 @@
 
 <div id="home" class="page active">
 
-<h1>Welcome Back!</h1>
+<h1 id="greeting"></h1>
+<p id="encourage"></p>
 
 <div class="grid">
 
 <div class="card">
-
 <h3>Level</h3>
 <p id="level">1</p>
-
 </div>
 
 <div class="card">
-
 <h3>XP</h3>
-
-<div class="xp-bar">
-<div id="xp-fill"></div>
-</div>
-
+<div class="xp-bar"><div id="xp-fill"></div></div>
 </div>
 
 <div class="card">
-
 <h3>Your Pet</h3>
-<div class="pet-avatar">🐣</div>
-
+<div class="pet-avatar">🦊</div>
 </div>
 
 </div>
 
 </div>
-
 
 <!-- FLASHCARDS -->
 
@@ -80,25 +65,20 @@
 
 <h1>Flashcards</h1>
 
-<div class="flashcard-container">
+<div class="flashcard" onclick="flipCard()">
 
-<div class="flashcard3d" onclick="flipCard()">
-
-<div id="card-front" class="card-front">Hola</div>
-<div id="card-back" class="card-back">Hello</div>
+<div id="card-front">Hola</div>
+<div id="card-back">Hello</div>
 
 </div>
 
-<button onclick="nextFlashcard()">Next Card</button>
+<button onclick="nextCard()">Next</button>
 
 </div>
-
-</div>
-
 
 <!-- MATCH GAME -->
 
-<div id="play" class="page">
+<div id="game" class="page">
 
 <h1>Matching Game</h1>
 
@@ -106,35 +86,87 @@
 
 </div>
 
+<!-- TEST -->
 
-<!-- PROGRESS -->
+<div id="test" class="page">
 
-<div id="stats" class="page">
+<h1>Unit Test</h1>
 
-<h1>Learning Progress</h1>
+<div id="quiz-container"></div>
 
-<canvas id="progressChart"></canvas>
+<button onclick="submitTest()">Submit Test</button>
 
-</div>
-
-
-<!-- ACHIEVEMENTS -->
-
-<div id="profile" class="page">
-
-<h1>Achievements</h1>
-
-<div id="achievements"></div>
+<p id="score"></p>
 
 </div>
 
+<!-- SCHEDULING -->
+
+<div id="schedule" class="page">
+
+<h1>Session Scheduling</h1>
+
+<div class="card">
+
+<h3>Book Tutor or Group Session</h3>
+
+<input id="session-name" placeholder="Tutor or Group Name">
+
+<input id="session-date" type="date">
+
+<input id="session-time" type="time">
+
+<button onclick="addSession()">Schedule</button>
+
+<ul id="session-list"></ul>
+
+</div>
+
+<div class="card">
+
+<h3>Submit Excused Absence</h3>
+
+<textarea id="absence-reason" placeholder="Reason"></textarea>
+
+<button onclick="submitAbsence()">Submit</button>
+
+<p id="absence-msg"></p>
+
+</div>
+
+<div class="card">
+
+<h3>World Clock</h3>
+
+<input id="country-input" placeholder="Enter Country">
+
+<button onclick="addClock()">Add Clock</button>
+
+<div id="clock-list"></div>
+
+</div>
+
+</div>
+
+<!-- PET COLLECTION -->
+
+<div id="pets" class="page">
+
+<h1>Pet Collection</h1>
+
+<div class="pet-grid">
+
+<div class="pet-card">🐼 Chinese</div>
+<div class="pet-card">🐱 Japanese</div>
+<div class="pet-card">🐺 German</div>
+<div class="pet-card">🦁 Swahili</div>
+
+</div>
+
+</div>
 
 </div>
 </div>
-
-
-<div class="blob"></div>
-<div class="blob blob2"></div>
 
 <script src="script.js"></script>
 
