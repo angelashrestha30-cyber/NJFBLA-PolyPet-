@@ -1,175 +1,211 @@
-let xp = 0
-let level = 1
+let xp=0
+let level=1
 
 function showPage(page){
 
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.remove("active")
-})
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
 
 document.getElementById(page).classList.add("active")
 
 }
 
-/* XP SYSTEM */
+/* greeting */
+
+function greeting(){
+
+let h=new Date().getHours()
+
+let text=""
+
+if(h<12) text="Good Morning!"
+else if(h<18) text="Good Afternoon!"
+else text="Good Evening!"
+
+document.getElementById("greeting").innerText=text
+
+document.getElementById("encourage").innerText=
+"Clever like a fox 🦊 — keep up the pawsome progress!"
+
+}
+
+greeting()
+
+/* xp */
 
 function gainXP(){
 
-xp += 20
+xp+=10
 
-petCelebrate()
-
-if(xp >= 100){
-
+if(xp>=100){
 level++
-xp = 0
+xp=0
+document.getElementById("level").innerText=level
+}
 
-document.getElementById("level").textContent = level
-
-showAchievement("Level Up!")
+document.getElementById("xp-fill").style.width=xp+"%"
 
 }
 
-document.getElementById("xp-fill").style.width = xp + "%"
+/* flashcards */
 
-}
-
-/* PET REACTION */
-
-function petCelebrate(){
-
-let pet = document.querySelector(".pet-avatar")
-
-pet.style.transform="scale(1.4)"
-
-setTimeout(()=>{
-pet.style.transform="scale(1)"
-},400)
-
-}
-
-/* FLASHCARDS */
-
-let flashcards = [
-
-{front:"Hola",back:"Hello"},
-{front:"Gracias",back:"Thank you"},
-{front:"Adiós",back:"Goodbye"},
-{front:"Por favor",back:"Please"}
-
+let cards=[
+["Hola","Hello"],
+["Gracias","Thank you"],
+["Adiós","Goodbye"]
 ]
 
-let currentCard = 0
+let i=0
+let flipped=false
 
 function flipCard(){
 
-document.querySelector(".flashcard3d").classList.toggle("flipped")
+flipped=!flipped
+
+document.getElementById("card-front").style.display=
+flipped?"none":"block"
+
+document.getElementById("card-back").style.display=
+flipped?"block":"none"
 
 }
 
-function nextFlashcard(){
+function nextCard(){
 
-currentCard++
+i++
 
-if(currentCard>=flashcards.length){
-
-currentCard=0
+if(i>=cards.length){
+i=0
 gainXP()
+}
+
+document.getElementById("card-front").innerText=cards[i][0]
+document.getElementById("card-back").innerText=cards[i][1]
 
 }
 
-document.querySelector(".flashcard3d").classList.remove("flipped")
-
-document.getElementById("card-front").innerText=
-flashcards[currentCard].front
-
-document.getElementById("card-back").innerText=
-flashcards[currentCard].back
-
-}
-
-/* MATCHING GAME */
+/* matching */
 
 let words=["Hola","Hello","Gracias","Thanks"]
 
 let board=document.getElementById("match-board")
 
-if(board){
+words.forEach(w=>{
 
-words.forEach(word=>{
+let d=document.createElement("div")
+d.className="match"
+d.innerText=w
+
+d.onclick=()=>{
+d.style.background="#b7ffce"
+gainXP()
+}
+
+board.appendChild(d)
+
+})
+
+/* test */
+
+let questions=[
+["Hola means?","Hello"],
+["Gracias means?","Thank you"],
+["Adiós means?","Goodbye"],
+["Por favor means?","Please"],
+["Yo means?","I"],
+["Tú means?","You"],
+["Comer means?","To eat"],
+["Beber means?","To drink"],
+["Casa means?","House"],
+["Libro means?","Book"],
+["Perro means?","Dog"],
+["Gato means?","Cat"],
+["Rojo means?","Red"],
+["Azul means?","Blue"],
+["Grande means?","Big"],
+["Pequeño means?","Small"],
+["Amigo means?","Friend"],
+["Escuela means?","School"],
+["Maestro means?","Teacher"],
+["Comida means?","Food"],
+["Agua means?","Water"],
+["Buenos días means?","Good morning"],
+["Buenas noches means?","Good night"],
+["¿Cómo estás?","How are you"],
+["Sí means?","Yes"]
+]
+
+let quiz=document.getElementById("quiz-container")
+
+questions.forEach((q,i)=>{
 
 let div=document.createElement("div")
 
-div.className="match-card"
+div.innerHTML=
 
-div.innerText=word
+q[0]+"<br><input id='q"+i+"'>"
 
-div.onclick=()=>{
-
-div.style.background="#c7ffd8"
-
-gainXP()
-
-}
-
-board.appendChild(div)
+quiz.appendChild(div)
 
 })
 
-}
+function submitTest(){
 
-/* ACHIEVEMENTS */
+let correct=0
 
-function showAchievement(text){
+questions.forEach((q,i)=>{
 
-let container=document.getElementById("achievements")
+let ans=document.getElementById("q"+i).value.toLowerCase()
 
-if(container){
-
-let badge=document.createElement("div")
-
-badge.className="badge"
-
-badge.innerText=text
-
-container.appendChild(badge)
-
-}
-
-}
-
-/* CHART */
-
-const ctx=document.getElementById("progressChart")
-
-if(ctx){
-
-new Chart(ctx,{
-
-type:"line",
-
-data:{
-
-labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-
-datasets:[{
-
-data:[10,30,20,40,60,50,90],
-
-borderColor:"#ff7eb3",
-
-backgroundColor:"rgba(255,126,179,.2)",
-
-tension:.4
-
-}]
-
-},
-
-options:{
-plugins:{legend:{display:false}}
-}
+if(ans===q[1].toLowerCase()) correct++
 
 })
+
+document.getElementById("score").innerText=
+"Score: "+correct+"/25"
+
+}
+
+/* scheduling */
+
+function addSession(){
+
+let name=document.getElementById("session-name").value
+let date=document.getElementById("session-date").value
+let time=document.getElementById("session-time").value
+
+let li=document.createElement("li")
+
+li.innerText=name+" - "+date+" "+time
+
+document.getElementById("session-list").appendChild(li)
+
+}
+
+/* absence */
+
+function submitAbsence(){
+
+document.getElementById("absence-msg").innerText=
+"Absence submitted for review."
+
+}
+
+/* world clock */
+
+function addClock(){
+
+let country=document.getElementById("country-input").value
+
+let div=document.createElement("div")
+
+setInterval(()=>{
+
+let time=new Date().toLocaleTimeString()
+
+div.innerText=country+" : "+time
+
+},1000)
+
+document.getElementById("clock-list").appendChild(div)
 
 }
