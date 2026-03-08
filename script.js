@@ -1,173 +1,220 @@
-// ---------- SINGLE PAGE NAV ----------
-function showSection(sectionId){
-  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(sectionId).classList.add('active');
+function showPage(p){
+
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"))
+
+document.getElementById(p).classList.add("active")
+
 }
 
-// ---------- PET AVATAR ----------
-let petXP = 0;
-let streak = 0;
-let petLevel = 1;
+/* greeting */
 
-function completeLesson(){
-  petXP += 20; streak++;
-  document.getElementById('xp-fill').style.width = Math.min(petXP,100)+'%';
-  document.getElementById('streak').innerText = streak;
-  if(petXP >= 100){petLevel++; petXP=0; document.getElementById('level').innerText=petLevel;}
+let h=new Date().getHours()
+
+let greet=""
+
+if(h<12)greet="Good Morning"
+else if(h<18)greet="Good Afternoon"
+else greet="Good Evening"
+
+document.getElementById("greeting").innerText=greet
+document.getElementById("encourage").innerText=
+"Clever like a fox 🦊 Keep up the pawsome progress!"
+
+/* animated fox */
+
+document.addEventListener("mousemove",e=>{
+let fox=document.getElementById("fox")
+fox.style.left=e.pageX+15+"px"
+fox.style.top=e.pageY+15+"px"
+})
+
+/* world clock */
+
+let zones=[
+["New York","America/New_York"],
+["London","Europe/London"],
+["Tokyo","Asia/Tokyo"],
+["Beijing","Asia/Shanghai"]
+]
+
+zones.forEach(z=>{
+
+let div=document.createElement("div")
+
+setInterval(()=>{
+
+let t=new Date().toLocaleTimeString("en-US",{timeZone:z[1]})
+
+div.innerText=z[0]+" : "+t
+
+},1000)
+
+document.getElementById("clock-list").appendChild(div)
+
+})
+
+/* flashcards */
+
+let cards=[
+["Hola","Hello"],
+["Adiós","Goodbye"],
+["Gracias","Thank you"],
+["Por favor","Please"],
+["Sí","Yes"],
+["No","No"],
+["Buenos días","Good morning"],
+["Buenas tardes","Good afternoon"],
+["Buenas noches","Good night"],
+["¿Cómo estás?","How are you"],
+["Amigo","Friend"],
+["Familia","Family"],
+["Casa","House"],
+["Libro","Book"],
+["Perro","Dog"],
+["Gato","Cat"],
+["Comer","To eat"],
+["Beber","To drink"],
+["Escuela","School"],
+["Maestro","Teacher"]
+]
+
+let i=0
+let flipped=false
+
+function showCard(){
+
+document.getElementById("card-front").innerText=cards[i][0]
+document.getElementById("card-back").innerText=""
+
 }
 
-document.getElementById('pet-name-btn').addEventListener('click',()=>{
-  const name = document.getElementById('pet-name-input').value;
-  if(name){document.getElementById('pet-name-display').innerText = name;}
-});
+showCard()
 
-// ---------- GREETING ----------
-function updateGreeting(){
-  const now = new Date();
-  let greeting = "Good Morning";
-  if(now.getHours()>=12 && now.getHours()<18) greeting="Good Afternoon";
-  if(now.getHours()>=18) greeting="Good Evening";
-  document.getElementById('dynamicGreeting').innerText = greeting+", Emma!";
-}
-updateGreeting();
-
-// ---------- PET COLLECTION ----------
-let collectedPets = [];
-function collectPet(lang){
-  const icons = {Spanish:'🦊',Mandarin:'🐼',Japanese:'🐱',German:'🐺',Swahili:'🦁'};
-  if(!collectedPets.includes(lang)){
-    collectedPets.push(lang);
-    const grid = document.getElementById('pet-collection');
-    const card = document.createElement('div');
-    card.className='pet-card';
-    card.innerText = `${icons[lang]} ${lang}`;
-    grid.appendChild(card);
-  }
-}
-
-// ---------- FLASHCARDS ----------
-const flashcardsData = [
-  {q:'Hola', a:'Hello'}, {q:'Adiós', a:'Goodbye'}, {q:'Gracias', a:'Thank you'},
-  {q:'Por favor', a:'Please'}, {q:'Perro', a:'Dog'}, {q:'Gato', a:'Cat'},
-  {q:'Casa', a:'House'}, {q:'Escuela', a:'School'}, {q:'Libro', a:'Book'},
-  {q:'Agua', a:'Water'}, {q:'Comida', a:'Food'}, {q:'Amigo', a:'Friend'},
-  {q:'Familia', a:'Family'}, {q:'Rojo', a:'Red'}, {q:'Azul', a:'Blue'},
-  {q:'Verde', a:'Green'}, {q:'Feliz', a:'Happy'}, {q:'Triste', a:'Sad'},
-  {q:'Grande', a:'Big'}, {q:'Pequeño', a:'Small'}
-];
-let currentCard = 0;
-function loadFlashcards(){
-  document.getElementById('flashcards').classList.add('active');
-  currentCard=0;
-  document.getElementById('flashcard').innerText = flashcardsData[currentCard].q;
-}
 function flipCard(){
-  const card = flashcardsData[currentCard];
-  document.getElementById('flashcard').innerText = card.a;
+
+if(!flipped){
+document.getElementById("card-back").innerText=cards[i][1]
+flipped=true
+}else{
+document.getElementById("card-back").innerText=""
+flipped=false
 }
+
+}
+
 function nextCard(){
-  currentCard = (currentCard+1)%flashcardsData.length;
-  document.getElementById('flashcard').innerText = flashcardsData[currentCard].q;
+
+i=(i+1)%cards.length
+showCard()
+
 }
 
-// ---------- PRACTICE ----------
-const practiceData = [
-  {q:'Translate "Hello"', a:'Hola', explanation:'Hello in Spanish is Hola.'},
-  {q:'Translate "Thank you"', a:'Gracias', explanation:'Thank you in Spanish is Gracias.'},
-  {q:'Fill in the blank: El ___ (dog)', a:'Perro', explanation:'Dog in Spanish is Perro.'}
-];
-let currentPractice = 0;
-function startPractice(){
-  currentPractice=0;
-  document.getElementById('practice').classList.add('active');
-  document.getElementById('practiceQuestion').innerText = practiceData[currentPractice].q;
-  document.getElementById('practiceInput').value='';
-  document.getElementById('practiceResult').innerText='';
-  document.getElementById('nextPracticeBtn').style.display='none';
-}
+/* practice */
+
+let practiceQuestions=[
+["Yo ___ estudiante","soy"],
+["Ella ___ mi amiga","es"],
+["Nosotros ___ felices","somos"],
+["Tú ___ inteligente","eres"],
+["Ellos ___ estudiantes","son"]
+]
+
+let practice=document.getElementById("practice")
+
+practiceQuestions.forEach((q,i)=>{
+
+let d=document.createElement("div")
+
+d.innerHTML=q[0]+" <input id='p"+i+"'>"
+
+practice.appendChild(d)
+
+})
+
 function checkPractice(){
-  const input = document.getElementById('practiceInput').value.trim();
-  if(input.toLowerCase()===practiceData[currentPractice].a.toLowerCase()){
-    document.getElementById('practiceResult').innerText = '✅ Correct!';
-  }else{
-    document.getElementById('practiceResult').innerText = `❌ Wrong. Correct: ${practiceData[currentPractice].a}. ${practiceData[currentPractice].explanation}`;
-  }
-  document.getElementById('nextPracticeBtn').style.display='inline';
-}
-function nextPractice(){
-  currentPractice++;
-  if(currentPractice>=practiceData.length){document.getElementById('practiceResult').innerText='Practice Complete!';return;}
-  document.getElementById('practiceQuestion').innerText = practiceData[currentPractice].q;
-  document.getElementById('practiceInput').value='';
-  document.getElementById('practiceResult').innerText='';
-  document.getElementById('nextPracticeBtn').style.display='none';
+
+let correct=0
+
+practiceQuestions.forEach((q,i)=>{
+
+let ans=document.getElementById("p"+i).value
+
+if(ans==q[1])correct++
+
+})
+
+document.getElementById("practice-result").innerText=
+correct+" / "+practiceQuestions.length+" correct"
+
 }
 
-// ---------- UNIT TEST ----------
-const unitTestData = [
-  {q:'Translate "Good morning"', a:'Buenos días', explanation:'Good morning = Buenos días'},
-  {q:'Translate "Cat"', a:'Gato', explanation:'Cat = Gato'},
-  {q:'Translate "House"', a:'Casa', explanation:'House = Casa'},
-  {q:'Translate "Water"', a:'Agua', explanation:'Water = Agua'},
-  {q:'Translate "Friend"', a:'Amigo', explanation:'Friend = Amigo'},
-  {q:'Translate "Red"', a:'Rojo', explanation:'Red = Rojo'},
-  {q:'Translate "Blue"', a:'Azul', explanation:'Blue = Azul'},
-  {q:'Translate "Dog"', a:'Perro', explanation:'Dog = Perro'},
-  {q:'Translate "Book"', a:'Libro', explanation:'Book = Libro'},
-  {q:'Translate "Family"', a:'Familia', explanation:'Family = Familia'},
-  {q:'Translate "Food"', a:'Comida', explanation:'Food = Comida'},
-  {q:'Translate "Happy"', a:'Feliz', explanation:'Happy = Feliz'},
-  {q:'Translate "Sad"', a:'Triste', explanation:'Sad = Triste'},
-  {q:'Translate "Green"', a:'Verde', explanation:'Green = Verde'},
-  {q:'Translate "Small"', a:'Pequeño', explanation:'Small = Pequeño'},
-  {q:'Translate "Please"', a:'Por favor', explanation:'Please = Por favor'},
-  {q:'Translate "Goodbye"', a:'Adiós', explanation:'Goodbye = Adiós'},
-  {q:'Translate "School"', a:'Escuela', explanation:'School = Escuela'},
-  {q:'Translate "Family"', a:'Familia', explanation:'Family = Familia'},
-  {q:'Translate "Food"', a:'Comida', explanation:'Food = Comida'},
-  {q:'Translate "Dog"', a:'Perro', explanation:'Dog = Perro'},
-  {q:'Translate "Cat"', a:'Gato', explanation:'Cat = Gato'},
-  {q:'Translate "House"', a:'Casa', explanation:'House = Casa'},
-  {q:'Translate "Water"', a:'Agua', explanation:'Water = Agua'},
-  {q:'Translate "Friend"', a:'Amigo', explanation:'Friend = Amigo'}
-];
-function submitUnitTest(){
-  let score=0,results='';
-  unitTestData.forEach((q,i)=>{
-    const userAns = document.getElementById('q'+i)?.value.trim();
-    if(userAns?.toLowerCase()===q.a.toLowerCase()){score++;}else{results+=`Q${i+1}: ❌ Correct: ${q.a}. ${q.explanation}\n`;}
-  });
-  document.getElementById('unitTestResult').innerText=`Score: ${score}/${unitTestData.length}\n${results}`;
+/* unit test */
+
+let test=[
+["Hola means?","Hello","Greeting word"],
+["Gracias means?","Thank you","Polite expression"],
+["Perro means?","Dog","Animal vocab"],
+["Casa means?","House","Home word"],
+["Libro means?","Book","Object word"]
+]
+
+let quiz=document.getElementById("quiz")
+
+test.forEach((q,i)=>{
+
+let d=document.createElement("div")
+
+d.innerHTML=q[0]+"<br><input id='q"+i+"'>"
+
+quiz.appendChild(d)
+
+})
+
+function submitTest(){
+
+let score=0
+
+let result=""
+
+test.forEach((q,i)=>{
+
+let ans=document.getElementById("q"+i).value
+
+if(ans.toLowerCase()==q[1].toLowerCase()){
+score++
+}else{
+
+result+="Question: "+q[0]+"<br>"
+result+="Correct: "+q[1]+"<br>"
+result+="Explanation: "+q[2]+"<br><br>"
+
 }
 
-// ---------- SCHEDULE ----------
-function scheduleLesson(){
-  const name = document.getElementById('lesson-name').value;
-  const date = document.getElementById('lesson-date').value;
-  if(name && date){
-    const li = document.createElement('li');
-    li.innerText=`${date}: ${name}`;
-    document.getElementById('lesson-list').appendChild(li);
-    document.getElementById('lesson-name').value='';
-    document.getElementById('lesson-date').value='';
-  }
+})
+
+document.getElementById("results").innerHTML=
+"Score: "+score+"/"+test.length+"<br><br>"+result
+
 }
 
-// ---------- WORLD CLOCK ----------
-function updateClocks(){
-  const container = document.getElementById('clock-container');
-  container.innerHTML='';
-  const countries = [
-    {name:'New York, US', tz:'America/New_York'},
-    {name:'London, UK', tz:'Europe/London'},
-    {name:'Tokyo, JP', tz:'Asia/Tokyo'}
-  ];
-  countries.forEach(c=>{
-    const d = new Date().toLocaleTimeString('en-US',{timeZone:c.tz,hour:'2-digit',minute:'2-digit'});
-    const div = document.createElement('div'); div.className='clock';
-    div.innerHTML=`<strong>${c.name}</strong><br>${d}`;
-    container.appendChild(div);
-  });
+/* scheduling */
+
+function addSession(){
+
+let name=document.getElementById("session-name").value
+let date=document.getElementById("session-date").value
+let time=document.getElementById("session-time").value
+
+let li=document.createElement("li")
+
+li.innerText=name+" "+date+" "+time
+
+document.getElementById("sessions").appendChild(li)
+
 }
-setInterval(updateClocks,1000);
-updateClocks();
+
+function submitAbsence(){
+
+document.getElementById("absence-msg").innerText="Absence submitted"
+
+}
